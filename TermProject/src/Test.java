@@ -27,14 +27,7 @@ public class Test extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					System.out.println("Complete!!?");
-					System.out.println("Test1");
-					System.out.println("Test1");
-					System.out.println("Test1");
-					System.out.println("Test1");
-					System.out.println("Test1");
-					System.out.println("Test1");
-					System.out.println("Test push");
+					System.out.println("Test push Test push");
 					Test frame = new Test();
 					frame.setVisible(true);
 				} catch (Exception e) {
