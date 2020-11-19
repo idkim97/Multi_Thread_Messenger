@@ -27,7 +27,7 @@ public class Test extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					System.out.println("Complete");
+					System.out.println("Complete!!?");
 					System.out.println("Test1");
 					System.out.println("Test1");
 					System.out.println("Test1");
