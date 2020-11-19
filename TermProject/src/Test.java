@@ -28,6 +28,7 @@ public class Test extends JFrame {
 			public void run() {
 				try {
 					System.out.println("Test push Test push");
+					System.out.println("Test push Test push");
 					Test frame = new Test();
 					frame.setVisible(true);
 				} catch (Exception e) {
