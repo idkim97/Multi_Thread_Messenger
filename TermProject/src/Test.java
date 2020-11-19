@@ -30,6 +30,7 @@ public class Test extends JFrame {
 					System.out.println("Test1");
 					System.out.println("Test1");
 					System.out.println("Test1");
+					System.out.println("Test1");
 					Test frame = new Test();
 					frame.setVisible(true);
 				} catch (Exception e) {
