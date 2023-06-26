@@ -22,9 +22,9 @@ public class ServerDB
 	{
 		try
 		{
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, user, password);
-			stmt = con.createStatement();
+			Class.forName(driver);	// driver 클래스 로딩후 DriverManger에 등록
+			con = DriverManager.getConnection(url, user, password); // DB와 연결하는 객체
+			stmt = con.createStatement(); // SQL문 실행을 위한 객체
 			System.out.println(con);
 		}
 		catch (ClassNotFoundException e)
@@ -44,7 +44,7 @@ public class ServerDB
 		String search = "select id, password from user where id = '" + id + "';";
 		System.out.println("login메소드에 넘어온 id : " + id);
 		System.out.println("login메소드에 넘어온 pw : " + password);
-		ResultSet rs = stmt.executeQuery(search);
+		ResultSet rs = stmt.executeQuery(search);	// 실행한 쿼리문 ResultSet타입으로 저장
 		if (rs.next())
 		{
 			if (password.equals(rs.getString("password")))
@@ -86,29 +86,20 @@ public class ServerDB
 	public void register(ServerDB DB, String register) throws SQLException
 	{
 		String[] registerArray = register.split(" ");
-		String id = registerArray[1];
-		String password = registerArray[2];
-		String nickName = registerArray[3];
-		String name = registerArray[4];
-		String email = registerArray[5];
-		String birth = registerArray[6];
-		String phoneNumber = registerArray[7];
-		String homepage = registerArray[8];
-		String additional = registerArray[9];
+		String[] title = {"id","password","nickname","name","email","birth",
+							"phoneNumber","homepage","additional"};
+		for(int i=0;i<title.length;i++){
+			title[i] = registerArray[i+1];
+		}
+
 		String sql = "insert into user(id, password, nickName, name, email, birth, phoneNumber, homepage, additional) "
 				+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		PreparedStatement pstmt = DB.con.prepareStatement(sql);
-		
-		pstmt.setString(1, id);
-		pstmt.setString(2, password);
-		pstmt.setString(3, nickName);
-		pstmt.setString(4, name);
-		pstmt.setString(5, email);
-		pstmt.setString(6, birth);
-		pstmt.setString(7, phoneNumber);
-		pstmt.setString(8, homepage);
-		pstmt.setString(9, additional);
+
+		for(int i=0;i<title.length;i++){
+			pstmt.setString(i+1,title[i]);
+		}
 		
 		int res = pstmt.executeUpdate();
 	}
