@@ -45,7 +45,8 @@ public class ClientGUI_Main extends JFrame
 			socket = new Socket(serverAddress, serverPort); // 불러온 서버주소, port로 연결 요청
             in = new Scanner(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream(), true);
-            
+
+			//
             JFrame frame = new JFrame("Chatter" + id);
     		JTextField textField = new JTextField(50);
     		JTextArea messageArea = new JTextArea(16, 50);
@@ -53,7 +54,8 @@ public class ClientGUI_Main extends JFrame
     		frame.getContentPane().add(textField, BorderLayout.SOUTH);
     		frame.getContentPane().add(new JScrollPane(messageArea), BorderLayout.CENTER);
     	    frame.pack();
-    	    
+
+
     	    textField.addActionListener(new ActionListener()
             {
                 public void actionPerformed(ActionEvent e)
@@ -66,7 +68,11 @@ public class ClientGUI_Main extends JFrame
     	    
     	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setVisible(false);
-            
+
+
+
+
+
             JFrame frame1 = new JFrame("Chatter");
     		JTextField textField1 = new JTextField(50);
     		JTextArea messageArea1 = new JTextArea(16, 50);
@@ -74,7 +80,8 @@ public class ClientGUI_Main extends JFrame
     		frame1.getContentPane().add(textField1, BorderLayout.SOUTH);
     		frame1.getContentPane().add(new JScrollPane(messageArea1), BorderLayout.CENTER);
     	    frame1.pack();
-    	    
+
+
     	    textField1.addActionListener(new ActionListener()
             {
                 public void actionPerformed(ActionEvent e)
@@ -241,7 +248,8 @@ public class ClientGUI_Main extends JFrame
 		}
 	}
 	
-	/*GUI*/
+	// 실행시 가장 처음 뜨는 UI
+	// 로그인 화면
 	public ClientGUI_Main(String serverAddress, int serverPort)
 	{
 		this.serverAddress = serverAddress;
@@ -300,32 +308,29 @@ public class ClientGUI_Main extends JFrame
 		/*로그인 버튼 이벤트
 		 * idField와 passwordField에 입력된 값을 읽어와서
 		 * LOGIN이라는 문자열과 함께 서버로 보냄*/
-		loginButton.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				id = idField.getText();
-				password = String.valueOf(passwordField.getPassword());
-				try {
-					password = SimpleCrypto.encrypt(password);
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				out.println("LOGIN " + id + " " + password);
+		
+		loginButton.addActionListener(e -> {
+			id = idField.getText();
+			password = String.valueOf(passwordField.getPassword());
+			try {
+				// 회원가입할때 암호화한 비밀번호와 일치하는지 확인하기 위해 같은방식으로 암호화
+				password = SimpleCrypto.encrypt(password);	
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
+			// 서버에 LOGIN + id + password 형식으로 데이터 전달
+			out.println("LOGIN " + id + " " + password);
 		});
+
+
 		
 		/*비밀번호 찾기 버튼 이벤트
 		 * 비밀번호 찾기 GUI를 띄움 - ClientGUI_FindPassword.java*/
-		findPasswordButton.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				ClientGUI_FindPassword findPW = new ClientGUI_FindPassword(socket, in, out);
-				findPW.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-				findPW.setVisible(true);
-			}
+		findPasswordButton.addActionListener(e -> {
+			ClientGUI_FindPassword findPW = new ClientGUI_FindPassword(socket, in, out);
+			findPW.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			findPW.setVisible(true);
 		});
 		
 		/*회원가입 버튼 이벤트
