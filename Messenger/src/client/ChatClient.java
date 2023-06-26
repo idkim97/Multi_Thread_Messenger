@@ -151,31 +151,4 @@ public class ChatClient {
             frame.dispose();
         }
     }
-
- /*   public static void main(String[] args) throws Exception {
-       String st=null; // 아이피주소
-      int port=0; // 포트번호
-try
-{
-      File file = new File("C:\\Users\\Administrator\\eclipse-workspace\\NW2020\\serverinfo.dat");
-      //내 컴퓨터에 저장되있는 serverinfo.dat 읽기  
-
-      Scanner input = new Scanner(file);
-      while(input.hasNext())
-      {
-         st=input.nextLine();
-         port=input.nextInt();
-      }
-}
-catch(FileNotFoundException e) // defensive code
-{
-   st = "abob.ddns.net";
-   port = 59001;
-   System.out.println(e.getMessage());
-}        
-        ChatClient client = new ChatClient(st);
-        client.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        client.frame.setVisible(true);
-        client.run(port, );
-    }*/
 }
