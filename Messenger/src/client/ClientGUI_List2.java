@@ -38,7 +38,7 @@ import java.awt.Font;
 
 public class ClientGUI_List2 extends JFrame
 {
-	Weather weather = new Weather();
+//	Weather weather = new Weather();
 	private JPanel contentPane;
 	private Socket socket;
 	private Scanner in;
@@ -136,7 +136,7 @@ public class ClientGUI_List2 extends JFrame
 	      
 	      JTextArea textArea_1 = new JTextArea();
 	      textArea_1.setBounds(17, 570, 388, 18);
-	      textArea_1.append(Weather.getWeather());
+//	      textArea_1.append(Weather.getWeather());
 	      contentPane.add(textArea_1);
 	      
 	      JButton button_1 = new JButton("\uC804\uCCB4 \uCC44\uD305\uBC29 \uC785\uC7A5");
@@ -176,6 +176,7 @@ public class ClientGUI_List2 extends JFrame
 	                  selectedNode = (DefaultMutableTreeNode) pathForLocation.getLastPathComponent();
 	               } else{
 	                  selectedNode = null;
+
 	               }
 
 	            }

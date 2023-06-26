@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Messenger">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/miglayout15-swing.jar!/" />
+      <root url="jar://$PROJECT_DIR$/miglayout-src.zip!/" />
+      <root url="jar://$PROJECT_DIR$/mysql-connector-j-8.0.33.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
