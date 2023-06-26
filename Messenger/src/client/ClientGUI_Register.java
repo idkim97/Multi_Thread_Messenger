@@ -18,6 +18,12 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 
+
+/* 회원가입을 위한 UI 띄우고 서버에 정보 전달 
+*  "REGISTER " + id + " " + password + " " + nickName + " " +
+	name + " " + email + " " + birth + " " + phoneNumber + " " +
+	homepage + " " + additional 의 형태로 데이터 전달해줌
+	* */
 public class ClientGUI_Register extends JFrame
 {
 
@@ -54,14 +60,15 @@ public class ClientGUI_Register extends JFrame
 	private String phoneNumber = "";
 	private String homepage = "";
 	private String additional = "";
-	
+
+	// 회원가입(Register) UI 띄우기
 	public ClientGUI_Register(Socket socket, Scanner in, PrintWriter out)
 	{
 		this.socket = socket;
 		this.in = in;
 		this.out = out;
 		
-		/*GUI*/
+
 		setTitle("Register");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 389);
@@ -73,14 +80,14 @@ public class ClientGUI_Register extends JFrame
 		txtId = new JTextField();
 		txtId.setEditable(false);
 		txtId.setToolTipText("Enter the ID");
-		txtId.setText("ID");
+		txtId.setText("ID(*)");
 		txtId.setHorizontalAlignment(SwingConstants.CENTER);
 		txtId.setColumns(10);
 		txtId.setBounds(12, 29, 116, 21);
 		contentPane.add(txtId);
 		
 		txtPassword = new JTextField();
-		txtPassword.setText("Password");
+		txtPassword.setText("Password(*)");
 		txtPassword.setEditable(false);
 		txtPassword.setToolTipText("Enter the Password");
 		txtPassword.setHorizontalAlignment(SwingConstants.CENTER);
@@ -91,7 +98,7 @@ public class ClientGUI_Register extends JFrame
 		txtNickName = new JTextField();
 		txtNickName.setEditable(false);
 		txtNickName.setToolTipText("Enter the Nickname");
-		txtNickName.setText("Nickname");
+		txtNickName.setText("Nickname(*)");
 		txtNickName.setHorizontalAlignment(SwingConstants.CENTER);
 		txtNickName.setColumns(10);
 		txtNickName.setBounds(12, 91, 116, 21);
@@ -100,7 +107,7 @@ public class ClientGUI_Register extends JFrame
 		txtName = new JTextField();
 		txtName.setEditable(false);
 		txtName.setToolTipText("Enter the Name");
-		txtName.setText("Name");
+		txtName.setText("Name(*)");
 		txtName.setHorizontalAlignment(SwingConstants.CENTER);
 		txtName.setColumns(10);
 		txtName.setBounds(12, 122, 116, 21);
@@ -109,7 +116,7 @@ public class ClientGUI_Register extends JFrame
 		txtEmail = new JTextField();
 		txtEmail.setEditable(false);
 		txtEmail.setToolTipText("Enter the Email");
-		txtEmail.setText("E-mail");
+		txtEmail.setText("E-mail(*)");
 		txtEmail.setHorizontalAlignment(SwingConstants.CENTER);
 		txtEmail.setColumns(10);
 		txtEmail.setBounds(12, 153, 116, 21);
@@ -118,7 +125,7 @@ public class ClientGUI_Register extends JFrame
 		txtBirth = new JTextField();
 		txtBirth.setEditable(false);
 		txtBirth.setToolTipText("Enter the Birth");
-		txtBirth.setText("Birth (YYMMDD)");
+		txtBirth.setText("Birth (YYMMDD)(*)");
 		txtBirth.setHorizontalAlignment(SwingConstants.CENTER);
 		txtBirth.setColumns(10);
 		txtBirth.setBounds(12, 184, 116, 21);
@@ -150,7 +157,11 @@ public class ClientGUI_Register extends JFrame
 		txtAdditional.setColumns(10);
 		txtAdditional.setBounds(12, 277, 116, 21);
 		contentPane.add(txtAdditional);
-		
+
+
+
+
+		/* 정보 입력 텍스트필드*/
 		idField = new JTextField();
 		idField.setToolTipText("Enter the ID");
 		idField.setBounds(169, 29, 239, 21);
@@ -213,38 +224,29 @@ public class ClientGUI_Register extends JFrame
 		 * 각각 Field로 부터 입력된 값을 받아온 뒤
 		 * REGISTER 라는 문자열과 함께 입력값을 보냄
 		 * 필수 입력 항목이 빈칸일 경우, 다이얼로그를 띄움*/
-		btnRegister.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				id = idField.getText();
-				password = passwordField.getText();
-				nickName = nickNameField.getText();
-				name = nameField.getText();
-				email = emailField.getText();
-				birth = birthField.getText();
-				phoneNumber = phoneNumberField.getText();
-				homepage = homepageField.getText();
-				additional = additionalField.getText();
-				try
-				{
-					password = SimpleCrypto.encrypt(password);
-				}
-				catch (Exception e1)
-				{
-					e1.printStackTrace();
-				}
-				
-				if (isBlank(id, password, nickName, name, email, birth))
-				{
-					JOptionPane.showMessageDialog(null, "id, password, nickname, name, email, birth is necessary");
-				}
-				else
-				{
-					out.println("REGISTER " + id + " " + password + " " + nickName + " " +
-								name + " " + email + " " + birth + " " + phoneNumber + " " +
-								homepage + " " + additional);
-				}
+		btnRegister.addActionListener(e -> {
+			id = idField.getText();
+			password = passwordField.getText();
+			nickName = nickNameField.getText();
+			name = nameField.getText();
+			email = emailField.getText();
+			birth = birthField.getText();
+			phoneNumber = phoneNumberField.getText();
+			homepage = homepageField.getText();
+			additional = additionalField.getText();
+			try {
+				// 회원가입시 패스워드 암호화해서 password변수에 담아줌
+				password = SimpleCrypto.encrypt(password);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+
+			if (isBlank(id, password, nickName, name, email, birth)) {
+				JOptionPane.showMessageDialog(null, "id, password, nickname, name, email, birth is necessary");
+			} else {
+				out.println("REGISTER " + id + " " + password + " " + nickName + " " +
+						name + " " + email + " " + birth + " " + phoneNumber + " " +
+						homepage + " " + additional);
 			}
 		});
 	}
