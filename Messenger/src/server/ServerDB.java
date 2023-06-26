@@ -5,9 +5,9 @@ import java.sql.*;
 public class ServerDB
 {
 	private final String driver = "com.mysql.cj.jdbc.Driver";
-	private final String url = "jdbc:mysql://localhost:3306/messenger?serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false";
+	private final String url = "jdbc:mysql://localhost:3306/messenger";
 	private final String user = "root";
-	private final String password = "12345";
+	private final String password = "root";
 	private Connection con = null;
 	private Statement stmt = null;
 	private ResultSet rs = null;
@@ -42,18 +42,23 @@ public class ServerDB
 	public boolean login(ServerDB DB, String id, String password) throws SQLException
 	{
 		String search = "select id, password from user where id = '" + id + "';";
+		System.out.println("login메소드에 넘어온 id : " + id);
+		System.out.println("login메소드에 넘어온 pw : " + password);
 		ResultSet rs = stmt.executeQuery(search);
 		if (rs.next())
 		{
 			if (password.equals(rs.getString("password")))
 			{
+				System.out.println("비밀번호 DB랑 일치");
 				return true;
 			}
 			else
 			{
+				System.out.println("비밀번호 DB랑 불일치");
 				return false;
 			}
 		}
+		System.out.println("둘다 아니고 지금 그냥 빠져나감");
 		return false;
 	}
 	
