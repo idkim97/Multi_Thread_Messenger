@@ -72,6 +72,10 @@ public class ServerMain
 						String loginId = loginArray[1];
 						String loginPassword = loginArray[2];
 						boolean check = DB.login(DB, loginId, loginPassword);
+
+						System.out.println("DB접속 아이디 : " + loginId);
+						System.out.println("DB접속 비밀번호 : " + loginPassword);
+						System.out.println("check 변수 : " + check);
 						
 						if (check)
 						{
