@@ -20,9 +20,7 @@
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="bed2a30b-e577-49cb-a6af-4ff5ea0cbdaa" object-ref="schemas/messenger/tables/user" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-actions connection-id="bed2a30b-e577-49cb-a6af-4ff5ea0cbdaa" dataset="messenger.user" active-filter-id="26f2cd12-5d09-4b12-a152-db0739b73040">
