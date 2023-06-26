@@ -18,7 +18,7 @@ public class ServerMain
 		 * 쓰레드풀을 이용하여 소켓 연결을 대기함
 		 * accept 되었을 시, 쓰레드풀을 이용하여 Handler를 실행*/
 		System.out.println("The chat server is running...");
-		ExecutorService pool = Executors.newFixedThreadPool(500);
+		ExecutorService pool = Executors.newFixedThreadPool(500);	// 500개의 쓰레드풀 생성
 		try (ServerSocket listener = new ServerSocket(59001))
 		{
 			while (true)
