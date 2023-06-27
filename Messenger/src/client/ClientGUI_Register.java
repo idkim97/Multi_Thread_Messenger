@@ -248,6 +248,10 @@ public class ClientGUI_Register extends JFrame
 						name + " " + email + " " + birth + " " + phoneNumber + " " +
 						homepage + " " + additional);
 			}
+
+			// 회원가입이 완료되었다는 창을 띄우고 회원가입 창을 종료
+			JOptionPane.showMessageDialog(null, "회원가입이 완료되었습니다.");
+			dispose(); // 회원가입 창을 종료
 		});
 	}
 	
