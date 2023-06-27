@@ -35,6 +35,7 @@ public class ClientGUI_Main extends JFrame
 	private Scanner in;
 	private PrintWriter out;
 	private static String id = "";
+	private static String lastSenderId="";
 	private String password = "";
 	
 	
@@ -46,8 +47,8 @@ public class ClientGUI_Main extends JFrame
             in = new Scanner(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream(), true);
 
-			//
-            JFrame frame = new JFrame("Chatter" + id);
+			
+            JFrame frame = new JFrame("전체 채팅");
     		JTextField textField = new JTextField(50);
     		JTextArea messageArea = new JTextArea(16, 50);
     		JPanel contentPane;
@@ -56,24 +57,21 @@ public class ClientGUI_Main extends JFrame
     	    frame.pack();
 
 
-    	    textField.addActionListener(new ActionListener()
-            {
-                public void actionPerformed(ActionEvent e)
-                {
-                    out.println("MESSAGE " + id + " " + textField.getText() + "\n");
-                    messageArea.append(textField.getText() + "\n");
-                    textField.setText("");
-                }
-            });
+			// 채팅 입력시 MESSAGE id textField.getText() 개행
+    	    textField.addActionListener(e -> {
+				out.println("MESSAGE " + id + " " + textField.getText() + "\n");
+				messageArea.append(textField.getText() + "\n");
+				textField.setText("");
+			});
     	    
-    	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	    frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
             frame.setVisible(false);
 
 
 
 
 
-            JFrame frame1 = new JFrame("Chatter");
+            JFrame frame1 = new JFrame("개인채팅");
     		JTextField textField1 = new JTextField(50);
     		JTextArea messageArea1 = new JTextArea(16, 50);
     		JPanel contentPane1;
@@ -82,24 +80,30 @@ public class ClientGUI_Main extends JFrame
     	    frame1.pack();
 
 
-    	    textField1.addActionListener(new ActionListener()
-            {
-                public void actionPerformed(ActionEvent e)
-                {
-                	String with = frame1.getName();
-                	String[] name = with.split(" ");
-                	
-                    out.println("CHAT2 " + id + " " + name[1] + " " + textField1.getText());
-                    messageArea1.append(textField1.getText() + "\n");
-                    textField1.setText("");
-                }
-            });
-    	    frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	    textField1.addActionListener(e -> {
+				String with = frame1.getName();
+				String[] name = with.split(" ");
+				// 1대1채팅시 채팅입력하면 CHAT2 + id + name[1] + 입력한메세지
+				out.println("CHAT2 " + id + " " + name[1] + " " + textField1.getText());
+				messageArea1.append(textField1.getText() + "\n");
+				textField1.setText("");
+			});
+    	    frame1.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
             frame1.setVisible(false);
-            
+
+
+
+
+
+
+
+
+
+
             while (in.hasNextLine())
             {
             	String line = in.nextLine();
+				System.out.println(line);
             	
             	/*CONNECTED로 시작하는 문자열을 받으면
             	 * 서버와 연결되었다는 다이얼로그를 띄운 뒤
@@ -152,6 +156,7 @@ public class ClientGUI_Main extends JFrame
             	
             	if (line.startsWith("SEARCHRESULT"))
             	{
+
             		String[] who = line.split(" ");
             		String who1 = who[1];
             		JOptionPane.showMessageDialog(null, "Found " + who1);
@@ -165,26 +170,29 @@ public class ClientGUI_Main extends JFrame
             		String isOnline = infos[4];
             		JOptionPane.showMessageDialog(null, "한마디 : " + status + "\n" + "최근 접속시간 : " + time + "\n" + "상태 : " + isOnline);
             	}
-            	
+
+
             	if (line.startsWith("ENTERALL"))
             	{
             		 frame.setVisible(true);
             	}
-            	
-            	if (line.startsWith("MESSAGEFROM"))
-            	{
-            		String[] messages = line.split(" ");
-            		String id = messages[1];
-            		String message = messages[2];
-            		if (id.equals(this.id))
-            		{
-            			continue;
-            		}
-            		else
-            		{
-            			messageArea.append("From " + id + " :" + message + "\n");
-            		}
-            	}
+				
+				// 전체 채팅방에 접속해서 메세지 뿌릴때
+				if (line.startsWith("MESSAGEFROM")) {
+					String[] input = line.split(" ");
+					String senderId = input[1];
+					StringBuffer message = new StringBuffer();
+					for (int i = 2; i < input.length; i++) {
+						message.append(input[i]).append(" ");
+					}
+					System.out.println(message);
+
+					if (senderId != id) {
+						messageArea.append("From " + senderId + " :" + message + "\n");
+					}
+
+
+				}
             	
             	if (line.startsWith("OPEN"))
             	{
@@ -234,10 +242,18 @@ public class ClientGUI_Main extends JFrame
             	
             	if (line.startsWith("CHAT2WITH"))
             	{
-            		String[] input = line.split(" ");
-            		String from = input[1];
-            		String message = input[2];
-            		messageArea1.append("From " + from + " : " + message + "\n");
+					// 여기서 이렇게 처리하면 CHAT2WITH이랑 id는 잘 가져오지만
+					// 뒤에 메세지도 split처리되어서 잘려서 안들어가잖아
+					// 앞에 두개만 split으로 자르고
+					// 뒤에 문자열은 for문돌려서 문자열 끝까지 가져와야돼
+					String[] input = line.split(" ");
+					String from = input[1];
+					StringBuffer message = new StringBuffer();
+					for (int i = 2; i < input.length; i++) {
+						message.append(input[i]).append(" ");
+					}
+					System.out.println(message);
+					messageArea1.append("From " + from + " : " + message.toString() + "\n");
             	}
             }
 		}
@@ -247,14 +263,18 @@ public class ClientGUI_Main extends JFrame
 			dispose();
 		}
 	}
-	
+
+
+
+
+
 	// 실행시 가장 처음 뜨는 UI
 	// 로그인 화면
 	public ClientGUI_Main(String serverAddress, int serverPort)
 	{
 		this.serverAddress = serverAddress;
 		this.serverPort = serverPort;
-		
+
 		setTitle("Messenger-Client-Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 383, 215);
@@ -335,14 +355,10 @@ public class ClientGUI_Main extends JFrame
 		
 		/*회원가입 버튼 이벤트
 		 * 회원가입 GUI를 띄움 - ClientGUI_Register.java*/
-		registerButton.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				ClientGUI_Register register = new ClientGUI_Register(socket, in, out);
-				register.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-				register.setVisible(true);
-			}
+		registerButton.addActionListener(e -> {
+			ClientGUI_Register register = new ClientGUI_Register(socket, in, out);
+			register.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			register.setVisible(true);
 		});
 	}
 	public static String getId()
