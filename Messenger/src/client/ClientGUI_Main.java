@@ -159,7 +159,7 @@ public class ClientGUI_Main extends JFrame
 
             		String[] who = line.split(" ");
             		String who1 = who[1];
-            		JOptionPane.showMessageDialog(null, "Found " + who1);
+            		JOptionPane.showMessageDialog(null, "사용자 " + who1 + "을(를) 찾았습니다.");
             	}
             	
             	if (line.startsWith("INFOS"))
@@ -168,7 +168,7 @@ public class ClientGUI_Main extends JFrame
             		String status = infos[1];
             		String time = infos[2] + " " + infos[3];
             		String isOnline = infos[4];
-            		JOptionPane.showMessageDialog(null, "한마디 : " + status + "\n" + "최근 접속시간 : " + time + "\n" + "상태 : " + isOnline);
+            		JOptionPane.showMessageDialog(null, "상태메세지 : " + status + "\n" + "최근 접속시간 : " + time + "\n" + "상태 : " + isOnline);
             	}
 
 
@@ -187,9 +187,9 @@ public class ClientGUI_Main extends JFrame
 					}
 					System.out.println(message);
 
-					if (senderId != id) {
-						messageArea.append("From " + senderId + " :" + message + "\n");
-					}
+
+					messageArea.append("From " + senderId + " :" + message + "\n");
+
 
 
 				}
