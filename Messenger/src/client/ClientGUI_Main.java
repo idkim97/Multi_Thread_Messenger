@@ -176,7 +176,7 @@ public class ClientGUI_Main extends JFrame
             	{
             		 frame.setVisible(true);
             	}
-				
+
 				// 전체 채팅방에 접속해서 메세지 뿌릴때
 				if (line.startsWith("MESSAGEFROM")) {
 					String[] input = line.split(" ");
@@ -187,11 +187,7 @@ public class ClientGUI_Main extends JFrame
 					}
 					System.out.println(message);
 
-
 					messageArea.append("From " + senderId + " :" + message + "\n");
-
-
-
 				}
             	
             	if (line.startsWith("OPEN"))
