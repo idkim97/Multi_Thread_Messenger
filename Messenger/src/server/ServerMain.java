@@ -132,9 +132,13 @@ public class ServerMain
 					
 					/*클라이언트로부터 회원가입 요청이 들어왔을 시
 					 * 받은 문자열을 DB로 보냄*/
-					if (input.startsWith("REGISTER"))
-					{
-						DB.register(DB, input);
+					if (input.startsWith("REGISTER")) {
+						if (DB.isEmpty()) {
+							DB.setAdmin();
+							DB.register(DB, input);
+						} else {
+							DB.register(DB, input);
+						}
 						System.out.println(input);
 					}
 					
