@@ -1,6 +1,7 @@
 package client;
 
 import javax.swing.JFrame;
+import java.io.IOException;
 
 public class ClientMain
 {
@@ -13,10 +14,31 @@ public class ClientMain
 		String serverAddress = readServerInfo.getIp();
 		int serverPort = readServerInfo.getPort();
 		
-		/*로그인창 GUI 실행*/
+		/* 사용자 1에 대한 쓰레드 생성 및 UI */
 		ClientGUI_Main client = new ClientGUI_Main(serverAddress, serverPort);
 		client.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		client.setVisible(true);
-		client.run();
+		Thread clientThread1 = new Thread(() -> {
+			try{
+				client.run();
+			} catch (IOException e){
+				e.printStackTrace();
+			}
+		});
+		clientThread1.start();
+
+
+		/* 사용자 2에 대한 쓰레드 생성 및 UI */
+		ClientGUI_Main client2 = new ClientGUI_Main(serverAddress, serverPort);
+		client2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		client2.setVisible(true);
+		Thread clientThread2 = new Thread(() -> {
+			try{
+				client2.run();
+			} catch (IOException e){
+				e.printStackTrace();
+			}
+		});
+		clientThread2.start();
 	}
 }
