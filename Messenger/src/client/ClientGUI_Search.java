@@ -33,8 +33,8 @@ public class ClientGUI_Search extends JFrame
 		this.socket = socket;
 		this.in = in;
 		this.out = out;
-		
-		
+
+		setTitle("사용자 검색");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -46,34 +46,34 @@ public class ClientGUI_Search extends JFrame
 		textField.setBounds(12, 10, 294, 32);
 		contentPane.add(textField);
 		textField.setColumns(10);
-		
-		JButton btnNewButton = new JButton("\uAC80\uC0C9");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String name = textField.getText();
-				out.println("SEARCH " + name);
-				}
+
+		JButton btnNewButton = new JButton("검색");
+		btnNewButton.addActionListener(e -> {
+			String name = textField.getText();
+			out.println("SEARCH " + name);
 			}
-				);
+		);
 		btnNewButton.setBounds(325, 14, 97, 28);
 		contentPane.add(btnNewButton);
+
+
 		
-		btnNewButton_1 = new JButton("\uCE5C\uAD6C\uB4F1\uB85D");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String who = textField.getText();
-				out.println("ADDFRIEND " + "t1 " + who);
-				JOptionPane.showMessageDialog(null, "Added " + who);
-			}
+		btnNewButton_1 = new JButton("친구등록");
+		btnNewButton_1.addActionListener(e -> {
+			String who = textField.getText();
+//			out.println("ADDFRIEND " + "temp"+ " " + who);
+			out.println("ADDFRIEND " + ClientGUI_Main.getId() + " " + who);
+			JOptionPane.showMessageDialog(null, "Added " + who);
 		});
 		btnNewButton_1.setBounds(44, 219, 138, 32);
 		contentPane.add(btnNewButton_1);
-		btnNewButton_2 = new JButton("\uC815\uBCF4\uBCF4\uAE30");
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String who = textField.getText();
-				out.println("SHOWINFO " + who);
-			}
+
+
+
+		btnNewButton_2 = new JButton("정보보기");
+		btnNewButton_2.addActionListener(e -> {
+			String who = textField.getText();
+			out.println("SHOWINFO " + who);
 		});
 		btnNewButton_2.setBounds(227, 219, 155, 32);
 		contentPane.add(btnNewButton_2);
