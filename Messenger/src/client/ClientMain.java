@@ -6,6 +6,7 @@ import java.io.IOException;
 public class ClientMain
 {
 	/*메인 메소드*/
+
 	public static void main(String[] args) throws Exception
 	{
 		/* ConfigRead.java로 부터 서버 Ip, Port 읽어오기*/
