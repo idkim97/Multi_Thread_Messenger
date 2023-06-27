@@ -81,15 +81,11 @@ public class ClientGUI_FindPassword extends JFrame
 		/*비밀번호 찾기 버튼 이벤트
 		 * idField와 emailField의 값을 읽어온 뒤
 		 * FINDPW라는 문자열과 id, email 값을 합쳐서 서버로 보냄*/
-		btnFindPassword.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				id = idField.getText();
-				email = emailField.getText();
-				out.println("FINDPW " + id + " " + email);
-				setVisible(false);
-			}
+		btnFindPassword.addActionListener(e -> {
+			id = idField.getText();
+			email = emailField.getText();
+			out.println("FINDPW " + id + " " + email);
+			setVisible(false);
 		});
 	}
 }
