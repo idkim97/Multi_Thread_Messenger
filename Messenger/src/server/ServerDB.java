@@ -8,9 +8,9 @@ public class ServerDB
 	private final String url = "jdbc:mysql://localhost:3306/messenger";
 	private final String user = "root";
 	private final String password = "root";
-	private Connection con = null;
-	private Statement stmt = null;
-	private ResultSet rs = null;
+	private Connection con = null;	// DB와 연결을 하는 객체. 연결 설정 및 종료
+	private Statement stmt = null;	// SQL문 실행하기 위한 객체
+	private ResultSet rs = null;	// 쿼리 결과로 얻은 데이터 객체
 	
 	ServerDB()
 	{
@@ -92,8 +92,8 @@ public class ServerDB
 			title[i] = registerArray[i+1];
 		}
 
-		String sql = "insert into user(id, password, nickName, name, email, birth, phoneNumber, homepage, additional) "
-				+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "insert into user(id, password, nickName, name, email, birth, phoneNumber, homepage, additional, friend) "
+				+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?, 'admin')";
 		
 		PreparedStatement pstmt = DB.con.prepareStatement(sql);
 
@@ -131,14 +131,18 @@ public class ServerDB
 	{
 		
 		String sql = "update user set friend = ? where id = ?";
-		String friendList = findFriend(DB, id);
-		friendList += " " + addId + " ";
-		PreparedStatement pstmt = DB.con.prepareStatement(sql);
-		
-		pstmt.setString(1, friendList);
-		pstmt.setString(2, id);
-		
-		int res = pstmt.executeUpdate();
+		try {
+			String friendList = findFriend(DB, id);
+			friendList += " " + addId + " ";
+			PreparedStatement pstmt = DB.con.prepareStatement(sql);
+
+			pstmt.setString(1, friendList);
+			pstmt.setString(2, id);
+
+			int res = pstmt.executeUpdate();
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
 	}
 	
 	public void changeNick(ServerDB DB, String id, String nick) throws SQLException
@@ -150,6 +154,41 @@ public class ServerDB
 		pstmt.setString(2, id);
 		
 		int res = pstmt.executeUpdate();
+	}
+
+	// DB에 저장되어 있는 데이터가 존재하는지
+	// 한개도 없으면 true
+	// 한개라도 존재하면 false를 return 한다.
+	// 최초 회원가입자라면 admin 사용자를 DB에 먼저 넣어주고
+	// friend를 만들어주기위함
+	public boolean isEmpty(){
+		String sql = "SELECT COUNT(*) FROM user";
+
+		try{
+			stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			if (rs.next()) {
+				int count = rs.getInt(1);
+
+				if (count == 0) return true;
+				else return false;
+			}
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+
+	public void setAdmin() throws SQLException {
+		String sql = "insert into user(id, password, nickName, name, email, birth, phoneNumber, homepage, additional, friend) "
+				+ "values('admin', 'admin', 'admin', 'admin', 'admin', 'admin', 'admin', 'admin', 'admin', 'admin')";
+		try {
+			stmt.executeUpdate(sql);
+			System.out.println("admin 유저가 DB에 추가되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 
