@@ -106,6 +106,7 @@ public class ServerDB
 	
 	public String findFriend(ServerDB DB, String id) throws SQLException
 	{
+
 		String search = "select id, friend from user where id = '" + id + "';";
 		ResultSet rs = stmt.executeQuery(search);
 		if (rs.next())
@@ -150,4 +151,6 @@ public class ServerDB
 		
 		int res = pstmt.executeUpdate();
 	}
+
+
 }
