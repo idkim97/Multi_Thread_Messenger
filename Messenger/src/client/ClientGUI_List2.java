@@ -39,6 +39,14 @@ import java.awt.Font;
 public class ClientGUI_List2 extends JFrame
 {
 //	Weather weather = new Weather();
+
+	int buttonWidth = 140; // Adjust button width as needed
+	int buttonHeight = 55; // Adjust button height as needed
+	int buttonSpacing = 15; // Adjust the gap between buttons as needed
+	int MessengerWidth = 485;
+	int MessengerHeight = 650;
+	int listWidth = 450;
+	
 	private JPanel contentPane;
 	private Socket socket;
 	private Scanner in;
@@ -55,11 +63,14 @@ public class ClientGUI_List2 extends JFrame
 
 		setTitle("Messenger"+" "+id);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 647);
+		setBounds(100, 100, MessengerWidth, MessengerHeight);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		// 버튼 x좌표 지정
+		int firstButtonX = 10;
 		
 		
 		
@@ -70,7 +81,7 @@ public class ClientGUI_List2 extends JFrame
 
 			se.setVisible(true);
 		});
-		btnNewButton.setBounds(0, 0, 126, 55);
+		btnNewButton.setBounds(firstButtonX, 30, buttonWidth, buttonHeight);
 		contentPane.add(btnNewButton);
 		
 		
@@ -83,20 +94,22 @@ public class ClientGUI_List2 extends JFrame
 				se1.setVisible(true);
 			}
 		});
-		button.setBounds(129, 0, 94, 55);
+		button.setBounds(firstButtonX + buttonWidth + buttonSpacing, 30, buttonWidth, buttonHeight);
 		contentPane.add(button);
-		
-		
-		
-		JScrollBar scrollBar = new JScrollBar();
-		scrollBar.setBounds(411, 0, 21, 600);
-		contentPane.add(scrollBar);
-		
+
+
+//		// 스크롤바
+//		JScrollBar scrollBar = new JScrollBar();
+//		scrollBar.setBounds(405, 0, 15, 600);
+//		contentPane.add(scrollBar);
+
+		// 스크롤바 Pane
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(17, 119, 388, 449);
-		
+		scrollPane.setBounds(17, 119, listWidth, 449);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
 		contentPane.add(scrollPane);
-		
+
 		
 		// 친구창 목록
 		tree.setModel(new DefaultTreeModel(
@@ -153,7 +166,7 @@ public class ClientGUI_List2 extends JFrame
 	      		out.println("ENTERALL ");
 	      	}
 	      });
-	      button_1.setBounds(225, 0, 132, 55);
+	      button_1.setBounds(firstButtonX + (buttonWidth + buttonSpacing) * 2, 30, buttonWidth, buttonHeight);
 	      contentPane.add(button_1);
 	}
 	
