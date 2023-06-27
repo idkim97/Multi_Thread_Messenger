@@ -27,6 +27,10 @@ public class ClientGUI_Search extends JFrame
 	private String who = "";
 	private JButton btnNewButton_1;
 	private JButton btnNewButton_2;
+	int searchPanelWidth = 450;
+	int searchPanelHeight = 200;
+	int searchPanelX = 100;
+	int searchPanelY = 100;
 
 	public ClientGUI_Search(Socket socket, Scanner in, PrintWriter out)
 	{
@@ -36,7 +40,7 @@ public class ClientGUI_Search extends JFrame
 
 		setTitle("사용자 검색");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(searchPanelX, searchPanelY, searchPanelWidth, searchPanelHeight);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -53,7 +57,7 @@ public class ClientGUI_Search extends JFrame
 			out.println("SEARCH " + name);
 			}
 		);
-		btnNewButton.setBounds(325, 14, 97, 28);
+		btnNewButton.setBounds(textField.getX() + textField.getWidth() + 10, textField.getY(), 97, 28);
 		contentPane.add(btnNewButton);
 
 
@@ -63,9 +67,9 @@ public class ClientGUI_Search extends JFrame
 			String who = textField.getText();
 //			out.println("ADDFRIEND " + "temp"+ " " + who);
 			out.println("ADDFRIEND " + ClientGUI_Main.getId() + " " + who);
-			JOptionPane.showMessageDialog(null, "Added " + who);
+			JOptionPane.showMessageDialog(null, "사용자 " + who + "을(를) 친구목록에 추가했습니다.");
 		});
-		btnNewButton_1.setBounds(44, 219, 138, 32);
+		btnNewButton_1.setBounds(textField.getX(), textField.getY() + textField.getHeight() + 60, 138, 32);
 		contentPane.add(btnNewButton_1);
 
 
@@ -75,7 +79,7 @@ public class ClientGUI_Search extends JFrame
 			String who = textField.getText();
 			out.println("SHOWINFO " + who);
 		});
-		btnNewButton_2.setBounds(227, 219, 155, 32);
+		btnNewButton_2.setBounds(btnNewButton_1.getX() + btnNewButton_1.getWidth() + btnNewButton.getWidth() + 10, btnNewButton_1.getY(), 155, 32);
 		contentPane.add(btnNewButton_2);
 		
 		
