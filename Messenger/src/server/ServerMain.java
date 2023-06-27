@@ -1,5 +1,7 @@
 package server;
 
+import client.ClientGUI_Main;
+
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -49,6 +51,7 @@ public class ServerMain
 				/*클라이언트와 연결되면, 클라이언트로 CONNECTED라는 문자열을 보냄*/
 				out.println("CONNECTED");
 				
+				// 서버에 어떤 데이터가 들어오면 계속 while문 도는거야
 				while (true)
 				{
 					String input = in.nextLine();
@@ -135,6 +138,7 @@ public class ServerMain
 						System.out.println(input);
 					}
 					
+					// 사용자 검색
 					if (input.startsWith("SEARCH"))
 					{
 						String[] inp = input.split(" ");
@@ -143,14 +147,18 @@ public class ServerMain
 						out.println("SEARCHRESULT " + result);
 					}
 					
+					// 친구 추가
 					if (input.startsWith("ADDFRIEND"))
 					{
 						String[] inp = input.split(" ");
+						// 지금 inpName에 t1이라는 값이 들어가있는데
+						// 접속한 id가 들어가야됨
 						String inpName = inp[1];
 						String addName = inp[2];
 						DB.AddFriend(DB, inpName, addName);
 					}
 					
+					// 정보 변경
 					if (input.startsWith("CHANGEINFO"))
 					{
 						String[] inp = input.split(" ");
@@ -162,6 +170,7 @@ public class ServerMain
 						DB.changeNick(DB, id, nickName);
 					}
 					
+					// 정보 보기
 					if (input.startsWith("SHOWINFO"))
 					{
 						String[] inp = input.split(" ");
@@ -180,27 +189,40 @@ public class ServerMain
 						}
 					}
 					
+					// 전체 채팅방 입장
 					if (input.startsWith("ENTERALL"))
 					{
 						out.println("ENTERALL");
 					}
-					
+
+
+					// 채팅방에서 메세지 입력시
+					// 지금 봤을때는 전체채팅같음
 					if (input.startsWith("MESSAGE"))
 					{
 						String[] inp = input.split(" ");
+
 						String id = inp[1];
-						String message = inp[2];
+
+						StringBuffer sb = new StringBuffer();
+						for(int i=2;i<inp.length;i++){
+							sb.append(inp[i]).append(" ");
+						}
+
+						String message = sb.toString().trim();
 						for (PrintWriter p : User.participants.values())
 						{
 							p.println("MESSAGEFROM " + id + " " + message);
 						}
 					}
-					
+
+					// 마우스 우클릭으로 친구 목록 눌러서 채팅 누를때
+					// CHATWITH + id + id가 들어옴
 					if (input.startsWith("CHATWITH"))
 					{
 						String[] inp = input.split(" ");
-						String id1 = inp[1];
-						String id2 = inp[2];
+						String id1 = inp[1];	// id
+						String id2 = inp[2];	// 트리 경로
 						PrintWriter id1p = User.participants.get(id1);
 						PrintWriter id2p = User.participants.get(id2);
 						id1p.println("FOPENF " + id2 + " " + id1);
@@ -224,12 +246,21 @@ public class ServerMain
 							id1p.println("CHAT2NO " + id1 + " " + id2 + " " + "rejected");
 						}
 					}
+
+					// 일대일 채팅 입력시 시작됨
 					if (input.startsWith("CHAT2"))
 					{
 						String[] inp = input.split(" ");
 						String from = inp[1];
 						String to = inp[2];
-						String message = inp[3];
+
+						StringBuffer sb = new StringBuffer();
+						for(int i=3;i<inp.length;i++){
+							sb.append(inp[i]).append(" ");
+						}
+
+						String message = sb.toString().trim();
+
 						PrintWriter fromp = User.participants.get(inp[1]);
 						PrintWriter top = User.participants.get(inp[2]);
 						top.println("CHAT2WITH " + from + " " + message);
