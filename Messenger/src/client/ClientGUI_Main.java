@@ -111,7 +111,7 @@ public class ClientGUI_Main extends JFrame
             	if (line.startsWith("CONNECTED"))
             	{
             		JOptionPane.showMessageDialog(null, "Connected with server");
-            		out.println("CONNECETED " + InetAddress.getLocalHost().getHostAddress());
+            		out.println("CONNECTED " + InetAddress.getLocalHost().getHostAddress());
             	}
             	
             	/*LOGINOK로 시작하는 문자열을 받으면
