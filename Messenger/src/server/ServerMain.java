@@ -58,7 +58,7 @@ public class ServerMain
 					
 					/*클라이언트로부터 CONNECTED라는 문자열을 받으면,
 					 * 서버에 CONNECTED라는 문자열과 클라이언트의 아이피주소를 출력*/
-					if (input.startsWith("CONNECETED"))
+					if (input.startsWith("CONNECTED"))
 					{
 						System.out.println(input);
 					}
